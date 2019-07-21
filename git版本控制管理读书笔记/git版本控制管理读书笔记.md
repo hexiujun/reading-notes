@@ -47,13 +47,46 @@ Git追踪的是内容而不是文件。
 
 打包文件：Git使用的一种高效的存储机制。即存储一个文件的整个版本并存储用来构造其他版本的相似文件的差异。Git有更复杂的打包算法。
 
+配置文件（.ini文件风格的文本文件）
+
+Git中的文件分类：  
+- 已追踪的（Tracked）：指已经在版本库中的文件，或是已暂存到索引中的文件。
+- 被忽略的（Ignored）：在版本库中被明确声明为不可见或被忽略的文件。
+- 未追踪的（Untracked）：不在版本库中的文件，但在工作目录中文件。
+
+.gitignore文件  
+
+提交（commit）操作：  
+
+
 ### 功能概览
 
 查看提交差异。
 
+文件重命名后，使用 "git log --follow filename" 查看包括旧文件名的历史记录。
 
-状态机：
-- unstaged
-- staged 
+查看提交历史记录：  
+git log ：
+- "-n" : 限制n个提交历史记录
+- "--stat" : 显示每次提交的更改的文件和对应行数  
 
-配置文件（.ini文件风格的文本文件）
+git show : 可以查看某个特定提交
+
+### 状态机
+- NULL
+- init(I)
+- untracked(UT)
+- unstaged(US)
+- staged(S) 
+- commited(C)
+
+git rm --cached : S -> UT  
+git rm : I -> S ,  
+Git在删除一个文件前，会先进行检查以确保工作目录下该文件的版本与当前分支中最新版本是匹配的。这个验证会防止文件的修改意外丢失。使用 -f 强制删除。
+
+git checkout -- \<file\> : US -> I  
+
+"git reset HEAD \<file\>..." : S -> US  
+
+"git mv oldfilename newfilename" : I -> S  
+
